@@ -5,11 +5,56 @@ description = "Bring some useful tools from Rust to Python"
 authors = ["iceice666 <iceice666@outlook.com>"]
 license = "mit"
 readme = "readme.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"
 
+[tool.poetry.group.test.dependencies]
+pytest-cov = "^5.0.0"
+pytest = "^8.3.2"
+pytest-mypy = "^0.10.3"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.mypy]
+python_version = "3.12"
+files = [
+    "src",
+    "tests",
+]
+
+check_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_untyped_decorators = true
+disallow_any_generics = true
+disallow_subclassing_any = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+no_implicit_optional = true
+no_implicit_reexport = true
+show_column_numbers = true
+show_error_codes = true
+show_error_context = true
+strict_equality = true
+strict_optional = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unused_configs = true
+warn_unused_ignores = true
+
+
+[tool.pytest.ini_options]
+addopts = [
+    "--tb=short",
+    "--cov=result",
+    "--cov=tests",
+    "--cov-report=term",
+    "--cov-report=xml",
+]
+testpaths = [
+    "tests",
+]
