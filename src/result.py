@@ -1,8 +1,6 @@
 from dataclasses import dataclass
 from typing import TypeVar, Generic, Optional, Callable
 
-from src.common import UnwrapError
-
 T = TypeVar("T")
 U = TypeVar("U")
 E = TypeVar("E", bound=Exception)
@@ -314,3 +312,134 @@ class Result(Generic[T, E]):
         elif self.is_err() and other.is_err():
             return isinstance(self.err_value, type(other.err_value)) and str(self.err_value) == str(other.err_value)
         return False
+
+
+import unittest
+from src.common import UnwrapError
+
+
+class TestException(Exception):
+    def __eq__(self, other):
+        return isinstance(other, TestException)
+
+
+def get_exception(msg: str = "Error occurred") -> Exception:
+    return TestException(msg)
+
+
+class TestResult(unittest.TestCase):
+
+    def test_ok_value(self):
+        result = Result(ok=42)
+        self.assertTrue(result.is_ok())
+        self.assertFalse(result.is_err())
+        self.assertEqual(result.ok_value, 42)
+
+    def test_err_value(self):
+        result = Result(err=get_exception())
+        self.assertFalse(result.is_ok())
+        self.assertTrue(result.is_err())
+        self.assertEqual(result.err_value, get_exception())
+
+    def test_invalid_initialization(self):
+        with self.assertRaises(ValueError):
+            Result(ok=42, err=get_exception())
+        with self.assertRaises(ValueError):
+            Result()
+
+    def test_ok_method(self):
+        result = Result(ok=42)
+        self.assertTrue(result.ok().is_some())
+        self.assertEqual(result.ok().unwrap(), 42)
+
+    def test_err_method(self):
+        result = Result(err=get_exception())
+        self.assertTrue(result.err().is_some())
+        self.assertEqual(result.err().unwrap(), get_exception())
+
+    def test_map_ok_value(self):
+        result = Result(ok=2)
+        new_result = result.map(lambda x: x * 2)
+        self.assertTrue(new_result.is_ok())
+        self.assertEqual(new_result.ok_value, 4)
+
+    def test_map_err_value(self):
+        result = Result(err=get_exception())
+        new_result = result.map(lambda x: x * 2)
+        self.assertTrue(new_result.is_err())
+        self.assertEqual(new_result.err_value, get_exception())
+
+    def test_map_err(self):
+        def map_err(e: Exception) -> Exception:
+            return get_exception("Error occurred again")
+
+        result = Result(err=get_exception())
+        new_result = result.map_err(map_err)
+        self.assertTrue(new_result.is_err())
+        self.assertEqual(new_result.err_value, get_exception("Error occurred again"))
+
+    def test_map_or(self):
+        result_ok = Result(ok=10)
+        result_err = Result(err=get_exception())
+        self.assertEqual(result_ok.map_or(5, lambda x: x * 2), 20)
+        self.assertEqual(result_err.map_or(5, lambda x: x * 2), 5)
+
+    def test_map_or_else(self):
+        result_ok = Result(ok=10)
+        result_err = Result(err=get_exception())
+        self.assertEqual(result_ok.map_or_else(lambda e: 5, lambda x: x * 2), 20)
+        self.assertEqual(result_err.map_or_else(lambda e: 5, lambda x: x * 2), 5)
+
+    def test_unwrap_ok(self):
+        result = Result(ok=42)
+        self.assertEqual(result.unwrap(), 42)
+
+    def test_unwrap_err(self):
+        result = Result(err=get_exception())
+        with self.assertRaises(UnwrapError):
+            result.unwrap()
+
+    def test_unwrap_or(self):
+        result_ok = Result(ok=42)
+        result_err = Result(err=get_exception())
+        self.assertEqual(result_ok.unwrap_or(100), 42)
+        self.assertEqual(result_err.unwrap_or(100), 100)
+
+    def test_unwrap_or_else(self):
+        result_ok = Result(ok=42)
+        result_err = Result(err=get_exception())
+        self.assertEqual(result_ok.unwrap_or_else(lambda e: 100), 42)
+        self.assertEqual(result_err.unwrap_or_else(lambda e: 100), 100)
+
+    def test_expect(self):
+        result = Result(ok=42)
+        self.assertEqual(result.expect("Should not raise error"), 42)
+
+    def test_expect_err(self):
+        result = Result(err=get_exception())
+        with self.assertRaises(UnwrapError):
+            result.expect("Error occurred")
+
+    def test_and_ok(self):
+        result1 = Result(ok=10)
+        result2 = Result(ok=20)
+        self.assertEqual(result1.and_(result2).unwrap(), 20)
+
+    def test_and_err(self):
+        result1 = Result(err=get_exception())
+        result2 = Result(ok=20)
+        self.assertTrue(result1.and_(result2).is_err())
+
+    def test_or_ok(self):
+        result1 = Result(ok=10)
+        result2 = Result(ok=20)
+        self.assertEqual(result1.or_(result2).unwrap(), 10)
+
+    def test_or_err(self):
+        result1 = Result(err=get_exception())
+        result2 = Result(ok=20)
+        self.assertEqual(result1.or_(result2).unwrap(), 20)
+
+
+if __name__ == "__main__":
+    unittest.main()
