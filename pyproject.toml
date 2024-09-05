@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "result"
+version = "0.1.0"
+description = "Bring Rust-style error handling in python"
+authors = ["iceice666 <iceice666@outlook.com>"]
+license = "mit"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
