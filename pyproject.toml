@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "result"
+name = "rusty-python"
 version = "0.1.0"
-description = "Bring Rust-style error handling in python"
+description = "Let's get rusty!"
 authors = ["iceice666 <iceice666@outlook.com>"]
 license = "mit"
 readme = "README.md"
