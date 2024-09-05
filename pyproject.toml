@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "rusty-python"
+name = "rusty-utils"
 version = "0.1.0"
-description = "Let's get rusty!"
+description = "Bring some useful tools from Rust to Python"
 authors = ["iceice666 <iceice666@outlook.com>"]
 license = "mit"
-readme = "README.md"
+readme = "readme.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
