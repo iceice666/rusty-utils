@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rusty-utils"
-version = "0.1.0"
+version = "0.1.1"
 description = "Bring some useful tools from Rust to Python"
 authors = ["iceice666 <iceice666@outlook.com>"]
 license = "mit"
