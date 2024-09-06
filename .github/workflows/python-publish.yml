@@ -48,6 +48,11 @@ jobs:
 
     - name: Run the tests 
       run: poetry run pytest -v
+
+    - name: Print the package information
+      run: |
+          poetry show -v
+          poetry env info -v
       
     - name: Publish package
       run: poetry publish --build -vv
