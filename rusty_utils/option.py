@@ -10,9 +10,7 @@ E = TypeVar('E', bound=Exception)
 
 @dataclass(frozen=True)
 class Option(Generic[T]):
-    """
-    A class that expands the built-in Optional type, representing a value that
-    may or may not be present (Some or None).
+    """A class that expands the built-in Optional type, representing a value that may or may not be present (Some or None).
 
     Attributes:
         value (T | None): The value stored in the option or None if no value.
@@ -20,8 +18,7 @@ class Option(Generic[T]):
     value: T | None = None
 
     def __init__(self, value: T | None = None):
-        """
-        Initialize the Option class with an optional value.
+        """Initialize the Option class with an optional value.
 
         Args:
             value (T | None): The value to be stored in the Option, or None if absent.
@@ -29,40 +26,15 @@ class Option(Generic[T]):
         object.__setattr__(self, 'value', value)
 
     def __repr__(self) -> str:
-        """
-        String representation of the Option instance.
+        """String representation of the Option instance.
 
         Returns:
             str: "None" if no value is present, otherwise "Some(value)".
         """
         return "None" if self.value is None else f"Some({self.value})"
 
-    @staticmethod
-    def new_some(value: T) -> 'Option[T]':
-        """
-        Create a new Option with the given value.
-
-        Args:
-            value (T): The value to be stored in the Option.
-
-        Returns:
-            Option[T]: A new Option with the given value.
-        """
-        return Option(value)
-
-    @staticmethod
-    def new_none() -> 'Option[T]':
-        """
-        Create a new Option with no value.
-
-        Returns:
-            Option[T]: A new Option with no value.
-        """
-        return Option()
-
     def is_some(self) -> bool:
-        """
-        Check if the Option contains a value.
+        """Check if the Option contains a value.
 
         Returns:
             bool: True if the option contains a value, False otherwise.
@@ -70,8 +42,7 @@ class Option(Generic[T]):
         return self.value is not None
 
     def is_none(self) -> bool:
-        """
-        Check if the Option contains no value.
+        """Check if the Option contains no value.
 
         Returns:
             bool: True if the option contains no value, False otherwise.
@@ -79,8 +50,7 @@ class Option(Generic[T]):
         return self.value is None
 
     def is_some_and(self, f: Callable[[T], bool]) -> bool:
-        """
-        Check if the Option contains a value and the predicate returns True.
+        """Check if the Option contains a value and the predicate returns True.
 
         Args:
             f (Callable[[T], bool]): A function that takes the value and returns a bool.
@@ -91,8 +61,7 @@ class Option(Generic[T]):
         return self.is_some() and f(self.value)
 
     def expect(self, message: str) -> T:
-        """
-        Return the contained value or raise a ValueError with the provided message if None.
+        """Return the contained value or raise a ValueError with the provided message if None.
 
         Args:
             message (str): The message for the error if the Option contains no value.
@@ -109,8 +78,7 @@ class Option(Generic[T]):
             raise ValueError(message)
 
     def unwrap(self) -> T:
-        """
-        Return the contained value or raise an UnwrapError if None.
+        """Return the contained value or raise an UnwrapError if None.
 
         Returns:
             T: The contained value.
@@ -124,8 +92,7 @@ class Option(Generic[T]):
             raise UnwrapError("Option is None")
 
     def unwrap_or(self, default: T) -> T:
-        """
-        Return the contained value or the provided default if None.
+        """Return the contained value or the provided default if None.
 
         Args:
             default (T): The default value to return if the Option contains no value.
@@ -136,8 +103,7 @@ class Option(Generic[T]):
         return self.value if self.value is not None else default
 
     def unwrap_or_else(self, f: Callable[[], T]) -> T:
-        """
-        Return the contained value or the result of the provided function if None.
+        """Return the contained value or the result of the provided function if None.
 
         Args:
             f (Callable[[], T]): A function that returns a value to be used if the Option contains no value.
@@ -148,8 +114,7 @@ class Option(Generic[T]):
         return self.value if self.value is not None else f()
 
     def map(self, f: Callable[[T], U]) -> 'Option[U]':
-        """
-        Apply a function to the contained value and return a new Option containing the result.
+        """Apply a function to the contained value and return a new Option containing the result.
 
         Args:
             f (Callable[[T], U]): A function that takes the contained value and returns a new value.
@@ -160,8 +125,7 @@ class Option(Generic[T]):
         return Option(f(self.value)) if self.value is not None else Option()
 
     def map_or(self, default: U, f: Callable[[T], U]) -> U:
-        """
-        Apply a function to the contained value or return the provided default if None.
+        """Apply a function to the contained value or return the provided default if None.
 
         Args:
             default (U): The default value to return if the Option contains no value.
@@ -173,8 +137,7 @@ class Option(Generic[T]):
         return f(self.value) if self.value is not None else default
 
     def map_or_else(self, default_f: Callable[[], U], f: Callable[[T], U]) -> U:
-        """
-        Apply a function to the contained value or return the result of a default function if None.
+        """Apply a function to the contained value or return the result of a default function if None.
 
         Args:
             default_f (Callable[[], U]): A function that returns a default value if the Option contains no value.
@@ -186,8 +149,7 @@ class Option(Generic[T]):
         return f(self.value) if self.value is not None else default_f()
 
     def inspect(self, f: Callable[[T], None]) -> 'Option[T]':
-        """
-        Call a function with the contained value for side effects and return the Option unchanged.
+        """Call a function with the contained value for side effects and return the Option unchanged.
 
         Args:
             f (Callable[[T], None]): A function that takes the contained value for side effects.
@@ -200,8 +162,7 @@ class Option(Generic[T]):
         return self
 
     def ok_or(self, err: E) -> "Result[T, E]":
-        """
-        Convert the Option to a Result, returning Ok(value) if Some, or Err(err) if None.
+        """Convert the Option to a Result, returning Ok(value) if Some, or Err(err) if None.
 
         Args:
             err (E): The error to return if the Option contains no value.
@@ -213,8 +174,7 @@ class Option(Generic[T]):
         return Result(ok=self.value) if self.value is not None else Result(err=err)
 
     def ok_or_else(self, err_f: Callable[[], E]) -> "Result[T, E]":
-        """
-        Convert the Option to a Result, returning Ok(value) if Some, or Err from a function if None.
+        """Convert the Option to a Result, returning Ok(value) if Some, or Err from a function if None.
 
         Args:
             err_f (Callable[[], E]): A function that returns an error if the Option contains no value.
@@ -226,8 +186,7 @@ class Option(Generic[T]):
         return Result(ok=self.value) if self.value is not None else Result(err=err_f())
 
     def and_(self, optb: 'Option[U]') -> 'Option[U]':
-        """
-        Return the second Option if the first is Some, otherwise return None.
+        """Return the second Option if the first is Some, otherwise return None.
 
         Args:
             optb (Option[U]): The second Option to return if the first is Some.
@@ -238,8 +197,7 @@ class Option(Generic[T]):
         return optb if self.value is not None else Option()
 
     def and_then(self, f: Callable[[T], 'Option[U]']) -> 'Option[U]':
-        """
-        Call a function if the Option is Some and return its result, otherwise return None.
+        """Call a function if the Option is Some and return its result, otherwise return None.
 
         Args:
             f (Callable[[T], Option[U]]): A function that takes the contained value and returns a new Option.
@@ -250,8 +208,7 @@ class Option(Generic[T]):
         return f(self.value) if self.value is not None else Option()
 
     def or_(self, optb: 'Option[T]') -> 'Option[T]':
-        """
-        Return the first Option if it's Some, otherwise return the second Option.
+        """Return the first Option if it's Some, otherwise return the second Option.
 
         Args:
             optb (Option[T]): The second Option to return if the first is None.
@@ -262,8 +219,7 @@ class Option(Generic[T]):
         return self if self.value is not None else optb
 
     def or_else(self, f: Callable[[], 'Option[T]']) -> 'Option[T]':
-        """
-        Return the first Option if it's Some, otherwise return the result of a function.
+        """Return the first Option if it's Some, otherwise return the result of a function.
 
         Args:
             f (Callable[[], Option[T]]): A function that returns a new Option if the first is None.
@@ -274,8 +230,7 @@ class Option(Generic[T]):
         return self if self.value is not None else f()
 
     def xor(self, optb: 'Option[T]') -> 'Option[T]':
-        """
-        Return Some if exactly one of the options is Some, otherwise return None.
+        """Return Some if exactly one of the options is Some, otherwise return None.
 
         Args:
             optb (Option[T]): The other Option to compare with.

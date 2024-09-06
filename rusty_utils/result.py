@@ -11,8 +11,7 @@ F = TypeVar("F", bound=Exception)
 
 @dataclass(frozen=True)
 class Result(Generic[T, E]):
-    """
-    A generic container that represents either success ('Ok' value) or failure ('Err' value).
+    """A generic container that represents either success ('Ok' value) or failure ('Err' value).
 
     Attributes:
         ok_value: The value contained if the Result is successful.
@@ -25,8 +24,7 @@ class Result(Generic[T, E]):
     __is_ok__: bool
 
     def __init__(self, ok: Optional[T] = None, err: Optional[E] = None):
-        """
-        Initializes a Result object with either an 'ok_value' or an 'err_value'.
+        """Initializes a Result object with either an 'ok_value' or an 'err_value'.
 
         Args:
             ok: The value representing success.
@@ -46,57 +44,10 @@ class Result(Generic[T, E]):
         else:
             raise ValueError("Either ok_value or err_value must be provided")
 
-    @staticmethod
-    def new_ok(value: T) -> "Result[T, E]":
-        """
-        Creates a new Result object with the provided value as the 'Ok' value.
-
-        Args:
-            value: The value to use as the 'Ok' value.
-
-        Returns:
-            A new Result object with the provided value as the 'Ok' value.
-        """
-        return Result(ok=value)
-
-    @staticmethod
-    def new_err(value: E) -> "Result[T, E]":
-        """
-        Creates a new Result object with the provided value as the 'Err' value.
-
-        Args:
-            value: The value to use as the 'Err' value.
-
-        Returns:
-            A new Result object with the provided value as the 'Err' value.
-        """
-        return Result(err=value)
-
-    @staticmethod
-    def catch(f: Callable[[], T], err_type: type[E]) -> "Result[T, E]":
-        """
-        Runs the provided function and returns a Result object with either the function's return value or the caught exception.
-
-
-        Args:
-            f: The function to run.
-            err_type: The type of exception to catch.
-
-
-        Returns:
-            A Result object with either the function's return value or the caught exception.
-        """
-        try:
-            return Result.new_ok(f())
-        except err_type as e:
-            return Result.new_err(e)
-
-
     ######################################[ impls ]###############################################
 
     def is_ok(self) -> bool:
-        """
-        Checks if the Result is an 'Ok' value.
+        """Checks if the Result is an 'Ok' value.
 
         Returns:
             True if the Result is 'Ok', otherwise False.
@@ -104,8 +55,7 @@ class Result(Generic[T, E]):
         return self.__is_ok__
 
     def is_err(self) -> bool:
-        """
-        Checks if the Result is an 'Err' value.
+        """Checks if the Result is an 'Err' value.
 
         Returns:
             True if the Result is 'Err', otherwise False.
@@ -113,28 +63,25 @@ class Result(Generic[T, E]):
         return not self.__is_ok__
 
     def ok(self) -> "Option[T]":
-        """
-        Retrieves the 'Ok' value if the Result is successful.
+        """Retrieves the 'Ok' value if the Result is successful.
 
         Returns:
             The 'Ok' value if present, otherwise None.
         """
         from rusty_utils.option import Option
-        return Option(self.ok_value) if self.__is_ok__ else Option()
+        return Option(self.ok_value)
 
     def err(self) -> "Option[E]":
-        """
-        Retrieves the 'Err' value if the Result is a failure.
+        """Retrieves the 'Err' value if the Result is a failure.
 
         Returns:
             The 'Err' value if present, otherwise None.
         """
         from rusty_utils.option import Option
-        return Option(self.err_value) if not self.__is_ok__ else Option()
+        return Option(self.err_value)
 
     def map(self, f: Callable[[T], U]) -> "Result[U, E]":
-        """
-        Transforms the 'Ok' value using the provided function.
+        """Transforms the 'Ok' value using the provided function.
 
         Args:
             f: A function to apply to the 'Ok' value.
@@ -145,8 +92,7 @@ class Result(Generic[T, E]):
         return Result(ok=f(self.ok_value)) if self.__is_ok__ else Result(err=self.err_value)
 
     def map_or(self, default: U, f: Callable[[T], U]) -> U:
-        """
-        Transforms the 'Ok' value or returns the default if the Result is an error.
+        """Transforms the 'Ok' value or returns the default if the Result is an error.
 
         Args:
             default: The default value to return if the Result is an 'Err'.
@@ -158,8 +104,7 @@ class Result(Generic[T, E]):
         return f(self.ok_value) if self.__is_ok__ else default
 
     def map_or_else(self, f_err: Callable[[E], U], f_ok: Callable[[T], U]) -> U:
-        """
-        Transforms the 'Ok' or 'Err' value using the provided functions based on the Result's state.
+        """Transforms the 'Ok' or 'Err' value using the provided functions based on the Result's state.
 
         Args:
             f_err: A function to apply to the 'Err' value.
@@ -171,8 +116,7 @@ class Result(Generic[T, E]):
         return f_ok(self.ok_value) if self.__is_ok__ else f_err(self.err_value)
 
     def map_err(self, f: Callable[[E], F]) -> "Result[T, F]":
-        """
-        Transforms the 'Err' value using the provided function.
+        """Transforms the 'Err' value using the provided function.
 
         Args:
             f: A function to apply to the 'Err' value.
@@ -183,8 +127,7 @@ class Result(Generic[T, E]):
         return Result(ok=self.ok_value) if self.__is_ok__ else Result(err=f(self.err_value))
 
     def inspect(self, f: Callable[[T], None]) -> "Result[T, E]":
-        """
-        Executes the provided function on the 'Ok' value without transforming it.
+        """Executes the provided function on the 'Ok' value without transforming it.
 
         Args:
             f: A function to apply to the 'Ok' value.
@@ -197,8 +140,7 @@ class Result(Generic[T, E]):
         return self
 
     def inspect_err(self, f: Callable[[E], None]) -> "Result[T, E]":
-        """
-        Executes the provided function on the 'Err' value without transforming it.
+        """Executes the provided function on the 'Err' value without transforming it.
 
         Args:
             f: A function to apply to the 'Err' value.
@@ -211,8 +153,7 @@ class Result(Generic[T, E]):
         return self
 
     def expect(self, msg: str) -> T:
-        """
-        Unwraps the 'Ok' value or raises an UnwrapError with the provided message if the Result is an 'Err'.
+        """Unwraps the 'Ok' value or raises an UnwrapError with the provided message if the Result is an 'Err'.
 
         Args:
             msg: The error message to use if the Result is an 'Err'.
@@ -229,8 +170,7 @@ class Result(Generic[T, E]):
             raise UnwrapError(msg)
 
     def expect_err(self, msg: str) -> E:
-        """
-        Unwraps the 'Err' value or raises an UnwrapError with the provided message if the Result is an 'Ok'.
+        """Unwraps the 'Err' value or raises an UnwrapError with the provided message if the Result is an 'Ok'.
 
         Args:
             msg: The error message to use if the Result is an 'Ok'.
@@ -247,8 +187,7 @@ class Result(Generic[T, E]):
             return self.err_value
 
     def unwrap(self) -> T:
-        """
-        Unwraps the 'Ok' value, or raises an UnwrapError if the Result is an 'Err'.
+        """Unwraps the 'Ok' value, or raises an UnwrapError if the Result is an 'Err'.
 
         Returns:
             The 'Ok' value if present.
@@ -262,8 +201,7 @@ class Result(Generic[T, E]):
             raise UnwrapError(f"Called 'unwrap' on an 'Err' value: {self.err_value}")
 
     def unwrap_err(self) -> E:
-        """
-        Unwraps the 'Err' value, or raises an UnwrapError if the Result is an 'Ok'.
+        """Unwraps the 'Err' value, or raises an UnwrapError if the Result is an 'Ok'.
 
         Returns:
             The 'Err' value if present.
@@ -277,8 +215,7 @@ class Result(Generic[T, E]):
             return self.err_value
 
     def unwrap_or(self, default: T) -> T:
-        """
-        Returns the 'Ok' value or a default value if the Result is an 'Err'.
+        """Returns the 'Ok' value or a default value if the Result is an 'Err'.
 
         Args:
             default: The value to return if the Result is an 'Err'.
@@ -289,8 +226,7 @@ class Result(Generic[T, E]):
         return self.ok_value if self.__is_ok__ else default
 
     def unwrap_or_else(self, f: Callable[[E], T]) -> T:
-        """
-        Returns the 'Ok' value or computes a default from the 'Err' value using the provided function.
+        """Returns the 'Ok' value or computes a default from the 'Err' value using the provided function.
 
         Args:
             f: A function to compute a value from the 'Err' value.
@@ -300,9 +236,22 @@ class Result(Generic[T, E]):
         """
         return self.ok_value if self.__is_ok__ else f(self.err_value)
 
-    def and_(self, other: "Result[U, E]") -> "Result[U, E]":
+    def unwrap_or_raise(self) -> T:
+        """Unwraps the 'Ok' value, or raises the 'Err' value if it is an exception.
+
+        Returns:
+            The 'Ok' value if present.
+
+        Raises:
+            The 'Err' value if it is an exception.
         """
-        Returns the provided Result if this Result is 'Ok', otherwise returns the current 'Err'.
+        if self.__is_ok__:
+            return self.ok_value
+        else:
+            raise self.err_value
+
+    def and_(self, other: "Result[U, E]") -> "Result[U, E]":
+        """Returns the provided Result if this Result is 'Ok', otherwise returns the current 'Err'.
 
         Args:
             other: A Result object to return if this is an 'Ok'.
@@ -313,8 +262,7 @@ class Result(Generic[T, E]):
         return other if self.__is_ok__ else Result(err=self.err_value)
 
     def and_then(self, f: Callable[[T], "Result[U, E]"]) -> "Result[U, E]":
-        """
-        Calls the provided function with the 'Ok' value if this is an 'Ok' Result.
+        """Calls the provided function with the 'Ok' value if this is an 'Ok' Result.
 
         Args:
             f: A function to apply to the 'Ok' value.
@@ -325,8 +273,7 @@ class Result(Generic[T, E]):
         return f(self.ok_value) if self.__is_ok__ else Result(err=self.err_value)
 
     def or_(self, other: "Result[T, F]") -> "Result[T, F]":
-        """
-        Returns the current 'Ok' value or the provided Result if this is an 'Err'.
+        """Returns the current 'Ok' value or the provided Result if this is an 'Err'.
 
         Args:
             other: A Result object to return if this is an 'Err'.
@@ -337,8 +284,7 @@ class Result(Generic[T, E]):
         return Result(ok=self.ok_value) if self.__is_ok__ else other
 
     def or_else(self, f: Callable[[E], "Result[T, F]"]) -> "Result[T, F]":
-        """
-        Calls the provided function with the 'Err' value if this is an 'Err' Result.
+        """Calls the provided function with the 'Err' value if this is an 'Err' Result.
 
         Args:
             f: A function to apply to the 'Err' value.
@@ -363,3 +309,44 @@ class Result(Generic[T, E]):
         elif self.is_err() and other.is_err():
             return isinstance(self.err_value, type(other.err_value)) and str(self.err_value) == str(other.err_value)
         return False
+
+
+def Ok(value: T) -> "Result[T, E]":
+    """Creates a new Result object with the provided value as the 'Ok' value.
+
+    Args:
+        value: The value to use as the 'Ok' value.
+
+    Returns:
+        A new Result object with the provided value as the 'Ok' value.
+    """
+    return Result(ok=value)
+
+
+def Err(value: E) -> "Result[T, E]":
+    """Creates a new Result object with the provided value as the 'Err' value.
+
+    Args:
+        value: The value to use as the 'Err' value.
+
+    Returns:
+        A new Result object with the provided value as the 'Err' value.
+    """
+    return Result(err=value)
+
+
+def Catch(f: Callable[[], T], err_type: type[E]) -> "Result[T, E]":
+    """Runs the provided function and returns a Result object with either the function's return value or the caught exception.
+
+    Args:
+        f: The function to run.
+        err_type: The type of exception to catch.
+
+
+    Returns:
+        A Result object with either the function's return value or the caught exception.
+    """
+    try:
+        return Ok(f())
+    except err_type as e:
+        return Err(e)
