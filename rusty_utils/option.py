@@ -37,6 +37,29 @@ class Option(Generic[T]):
         """
         return "None" if self.value is None else f"Some({self.value})"
 
+    @staticmethod
+    def new_some(value: T) -> 'Option[T]':
+        """
+        Create a new Option with the given value.
+
+        Args:
+            value (T): The value to be stored in the Option.
+
+        Returns:
+            Option[T]: A new Option with the given value.
+        """
+        return Option(value)
+
+    @staticmethod
+    def new_none() -> 'Option[T]':
+        """
+        Create a new Option with no value.
+
+        Returns:
+            Option[T]: A new Option with no value.
+        """
+        return Option()
+
     def is_some(self) -> bool:
         """
         Check if the Option contains a value.

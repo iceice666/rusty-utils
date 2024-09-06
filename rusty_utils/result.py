@@ -46,6 +46,54 @@ class Result(Generic[T, E]):
         else:
             raise ValueError("Either ok_value or err_value must be provided")
 
+    @staticmethod
+    def new_ok(value: T) -> "Result[T, E]":
+        """
+        Creates a new Result object with the provided value as the 'Ok' value.
+
+        Args:
+            value: The value to use as the 'Ok' value.
+
+        Returns:
+            A new Result object with the provided value as the 'Ok' value.
+        """
+        return Result(ok=value)
+
+    @staticmethod
+    def new_err(value: E) -> "Result[T, E]":
+        """
+        Creates a new Result object with the provided value as the 'Err' value.
+
+        Args:
+            value: The value to use as the 'Err' value.
+
+        Returns:
+            A new Result object with the provided value as the 'Err' value.
+        """
+        return Result(err=value)
+
+    @staticmethod
+    def catch(f: Callable[[], T], err_type: type[E]) -> "Result[T, E]":
+        """
+        Runs the provided function and returns a Result object with either the function's return value or the caught exception.
+
+
+        Args:
+            f: The function to run.
+            err_type: The type of exception to catch.
+
+
+        Returns:
+            A Result object with either the function's return value or the caught exception.
+        """
+        try:
+            return Result.new_ok(f())
+        except err_type as e:
+            return Result.new_err(e)
+
+
+    ######################################[ impls ]###############################################
+
     def is_ok(self) -> bool:
         """
         Checks if the Result is an 'Ok' value.

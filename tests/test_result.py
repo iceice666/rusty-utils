@@ -146,3 +146,14 @@ def test_or_err() -> None:
     result1: ResT = Result(err=get_exception())
     result2: ResT = Result(ok=20)
     assert result1.or_(result2).unwrap() == 20
+
+
+def test_catch() -> None:
+    result_ok: Result[float, TestException] = Result.catch(lambda: 42 / 2, TestException)
+    assert result_ok.is_ok() is True
+    assert result_ok.unwrap() == 21
+
+    result_err: Result[float, ZeroDivisionError] = Result.catch(lambda: 42 / 0, ZeroDivisionError)
+    assert result_err.is_err() is True
+    with pytest.raises(ZeroDivisionError):
+        raise result_err.unwrap_err()
