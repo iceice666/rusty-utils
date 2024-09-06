@@ -10,7 +10,7 @@
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L314"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L316"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `Ok`
 
@@ -35,7 +35,7 @@ Creates a new `Result` object with the provided value as the `Ok` value.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L326"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L328"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `Err`
 
@@ -60,33 +60,22 @@ Creates a new `Result` object with the provided value as the `Err` value.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L338"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L340"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `Catch`
 
 ```python
-Catch(f: Callable[[], ~T], err_type: type[~E]) → Result[T, E]
+Catch(
+    *err_type: type[~E]
+) → Callable[[Callable[, ~T]], Callable[, Result[~T, ~E]]]
 ```
 
-Runs the provided function and returns a `Result` object with either the function's return value or the caught exception. 
-
-
-
-**Args:**
- 
- - <b>`f`</b> (`Callable[[], T]`):  The function to run. 
- - <b>`err_type`</b> (`type[E]`):  The type of exception to catch. 
-
-
-
-**Returns:**
- 
- - <b>``Result[T, E]``</b>:  A `Result` object with either the function's return value or the caught exception. 
+A decorator that catches exceptions to the provided type and returns them as `Err` values. 
 
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L12"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L14"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `Result`
 A generic container that represents either success (`Ok` value) or failure (`Err` value). 
@@ -99,7 +88,7 @@ A generic container that represents either success (`Ok` value) or failure (`Err
  - <b>`err_value`</b> (`E`):  The error contained if the `Result` is a failure. 
  - <b>`__is_ok__`</b> (`bool`):  A boolean indicating whether the `Result` is `Ok` (True) or `Err` (False). 
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L26"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L28"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `__init__`
 
@@ -127,7 +116,7 @@ Initializes a `Result` object with either an `ok_value` or an `err_value`.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L253"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L255"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `and_`
 
@@ -151,7 +140,7 @@ Returns the provided `Result` if this `Result` is `Ok`, otherwise returns the cu
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L264"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L266"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `and_then`
 
@@ -175,7 +164,7 @@ Calls the provided function with the `Ok` value if this is an `Ok` `Result`.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L74"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L76"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `err`
 
@@ -193,7 +182,7 @@ Retrieves the `Err` value if the `Result` is a failure.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L155"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L157"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `expect`
 
@@ -223,7 +212,7 @@ Unwraps the `Ok` value or raises an `UnwrapError` with the provided message if t
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L172"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L174"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `expect_err`
 
@@ -253,7 +242,7 @@ Unwraps the `Err` value or raises an `UnwrapError` with the provided message if 
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L129"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L131"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `inspect`
 
@@ -277,7 +266,7 @@ Executes the provided function on the `Ok` value without transforming it.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L142"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L144"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `inspect_err`
 
@@ -301,7 +290,7 @@ Executes the provided function on the `Err` value without transforming it.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L57"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L59"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `is_err`
 
@@ -319,7 +308,7 @@ Checks if the `Result` is an `Err` value.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L49"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L51"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `is_ok`
 
@@ -337,7 +326,7 @@ Checks if the `Result` is an `Ok` value.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L83"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L85"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `map`
 
@@ -361,7 +350,7 @@ Transforms the `Ok` value using the provided function.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L118"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L120"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `map_err`
 
@@ -385,7 +374,7 @@ Transforms the `Err` value using the provided function.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L94"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L96"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `map_or`
 
@@ -410,7 +399,7 @@ Transforms the `Ok` value or returns the default if the `Result` is an error.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L106"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L108"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `map_or_else`
 
@@ -435,7 +424,7 @@ Transforms the `Ok` or `Err` value using the provided functions based on the `Re
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L65"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L67"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `ok`
 
@@ -453,7 +442,7 @@ Retrieves the `Ok` value if the `Result` is successful.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L275"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L277"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `or_`
 
@@ -477,7 +466,7 @@ Returns the current `Ok` value or the provided `Result` if this is an `Err`.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L286"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L288"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `or_else`
 
@@ -501,7 +490,7 @@ Calls the provided function with the `Err` value if this is an `Err` `Result`.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L189"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L191"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `unwrap`
 
@@ -525,7 +514,7 @@ Unwraps the `Ok` value, or raises an `UnwrapError` if the `Result` is an `Err`.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L203"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L205"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `unwrap_err`
 
@@ -549,7 +538,7 @@ Unwraps the `Err` value, or raises an `UnwrapError` if the `Result` is an `Ok`.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L217"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L219"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `unwrap_or`
 
@@ -573,7 +562,7 @@ Returns the `Ok` value or a default value if the `Result` is an `Err`.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L228"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L230"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `unwrap_or_else`
 
@@ -597,7 +586,7 @@ Returns the `Ok` value or computes a default from the `Err` value using the prov
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L239"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\result.py#L241"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `unwrap_or_raise`
 

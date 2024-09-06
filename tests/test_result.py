@@ -150,11 +150,14 @@ def test_or_err() -> None:
 
 
 def test_catch() -> None:
-    result_ok: Result[float, TestException] = Catch(lambda: 42 / 2, TestException)
-    assert result_ok.is_ok() is True
-    assert result_ok.unwrap() == 21
+    @Catch(ZeroDivisionError)
+    def side_effect(divisor: int) -> float:
+        return 42 / divisor
 
-    result_err: Result[float, ZeroDivisionError] = Catch(lambda: 42 / 0, ZeroDivisionError)
-    assert result_err.is_err() is True
+    assert side_effect(2).unwrap() == 21.0
+
+    def another_side_effect() -> float:
+        return 42 / 0
+
     with pytest.raises(ZeroDivisionError):
-        raise result_err.unwrap_err()
+        Catch(ZeroDivisionError)(lambda: another_side_effect())().unwrap_or_raise()

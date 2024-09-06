@@ -1,12 +1,14 @@
 from dataclasses import dataclass
 from typing import TypeVar, Generic, Optional, Callable
 
+import inspect
+
 from rusty_utils.common import UnwrapError
 
 T = TypeVar("T")
 U = TypeVar("U")
-E = TypeVar("E", bound=Exception)
-F = TypeVar("F", bound=Exception)
+E = TypeVar("E", bound=BaseException)
+F = TypeVar("F", bound=BaseException)
 
 
 @dataclass(frozen=True)
@@ -335,17 +337,21 @@ def Err(value: E) -> "Result[T, E]":
     return Result(err=value)
 
 
-def Catch(f: Callable[[], T], err_type: type[E]) -> "Result[T, E]":
-    """Runs the provided function and returns a `Result` object with either the function's return value or the caught exception.
+def Catch(*err_type: type[E]) -> Callable[[Callable[..., T]], Callable[..., Result[T, E]]]:
+    """A decorator that catches exceptions to the provided type and returns them as `Err` values."""
+    from functools import wraps
 
-    Args:
-        f (`Callable[[], T]`): The function to run.
-        err_type (`type[E]`): The type of exception to catch.
+    if not err_type or not all(inspect.isclass(e) and issubclass(e, BaseException) for e in err_type):
+        raise TypeError("Catch decorator requires at least one exception type")
 
-    Returns:
-        `Result[T, E]`: A `Result` object with either the function's return value or the caught exception.
-    """
-    try:
-        return Ok(f())
-    except err_type as e:
-        return Err(e)
+    def decorator(func: Callable[..., T]) -> Callable[..., Result[T, E]]:
+        @wraps(func)
+        def wrapper(*args: object, **kwargs: object) -> "Result[T, E]":
+            try:
+                return Ok(func(*args, **kwargs))
+            except err_type as e:
+                return Err(e)
+
+        return wrapper
+
+    return decorator
