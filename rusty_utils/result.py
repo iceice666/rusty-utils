@@ -1,7 +1,9 @@
-from dataclasses import dataclass
-from typing import TypeVar, Generic, Optional, Callable
-
 import inspect
+from dataclasses import dataclass
+from typing import TypeVar, Generic, Optional, Callable, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from rusty_utils.option import Option
 
 from rusty_utils.common import UnwrapError
 
@@ -64,7 +66,7 @@ class Result(Generic[T, E]):
         """
         return not self.__is_ok__
 
-    def ok(self) -> "Option[T]":
+    def ok(self) -> Option[T]:
         """Retrieves the `Ok` value if the `Result` is successful.
 
         Returns:
@@ -73,7 +75,7 @@ class Result(Generic[T, E]):
         from rusty_utils.option import Option
         return Option(self.ok_value)
 
-    def err(self) -> "Option[E]":
+    def err(self) -> Option[E]:
         """Retrieves the `Err` value if the `Result` is a failure.
 
         Returns:

@@ -4,12 +4,14 @@ Bringing useful tools from Rust to Python.
 
 ## 🚪 Portals
 
+- [🚪 Portals](#-portals)
 - [📥 Installation](#-installation)
 - [📚 Features](#-features)
-    - [Result\[T, E\]](#resultt-e)
-- [⚙️ Usage Examples](#-usage-examples)
-    - [Example: Handling API Responses](#example-handling-api-responses)
-    - [Example: Safely Unwrapping Values](#example-safely-unwrapping-values)
+  - [Result\[T, E\]](#resultt-e)
+  - [Option\[T\]](#optiont)
+- [⚙️ Usage Examples](#️-usage-examples)
+  - [Example: Handling API Responses](#example-handling-api-responses)
+  - [Example: Safely Unwrapping Values](#example-safely-unwrapping-values)
 
 ## 📥 Installation
 
@@ -69,52 +71,89 @@ success: MyResult[int] = Ok(42)
 failure: MyResult[int] = Err(MyError("Something went wrong"))
 ```
 
-#### Quickly wrap a function call
+#### `?` Operator
+
+In Rust, the `?` operator is used to easily propagate errors up the call stack, allowing you to return early if a function fails, and to handle success (`Ok`) and failure (`Err`) values concisely.
+
+```rust
+fn side_effect() -> Resut<i32, Error> {
+    // some code that may fail
+    Ok(42)
+}
+
+fn process() -> Result<(), Error> {
+  let result = side_effect()?; // Propagates the error if it occurs
+  ... // Other operation
+}
+```
+
+In Python, you can't overload the `?` operator (we even didn't treat `?` as a valid operator in Python)
 
 ```python
-import random
-
-from rusty_utils import Catch, Result
-
-
-# Let's assume this function may fail
-def russian_roulette() -> str:
-    if random.randint(0, 6) == 0:
-        raise Exception("Bang!")
-    else:
-        return "Click!"
-
-
-# Quickly wrap the function call in a Result
-result: Result[str, Exception] = Catch(russian_roulette, Exception)
+result = side_effect()?  # What???
 ```
+
+In Python, something has similar ability to *throw the `Err`* and remain the `Ok` value is:  
+***Python built-in `try-except`***.
+
+```python
+from rusty_utils import Catch
+
+def side_effect() -> float:
+  # Simulate a potential failure (e.g., division by zero)
+  return 42 / 0
+
+@Catch(Exception)
+def wrapped_side_effect() -> float:
+  return side_effect()
+
+
+@Catch(Exception)
+def process() -> None:
+  result1 = wrapped_side_effect().unwrap_or_raise()  # You achieve same functionality with `unwrap_or_raise()`!
+  result2 = Catch(Exception)(side_effect)().unwrap_or_raise() 
+```
+
+In this example:
+
+- We use the `@Catch(Exception)` decorator to make sure we can capture the raised `Err` and return to the caller.
+- We can use the `Catch` in this way (result2) to capture the result of a fallible function call into a `Result`.
+  - The first function call pass a series of exceptions which need to be captured.
+  - The second function call pass the fallible function you want to call and capture the result. (***Do not call the
+    function inside!!!***)
+  - The third function call launch our safety net and wait the exception be captured (or you're lucky and get
+    data you want).
+- The `wrapped_side_effect()` function returns a `Result` that might be an error (`Err`) or a valid value (`Ok`).
+- Then use `unwrap_or_raise()` to handle the result: if it's an error, it raises the exception, effectively mimicking Rust's `?` operator.  
+
+This approach enables cleaner error propagation and handling in Python, much like in Rust, but using Python’s exception-handling style.
 
 #### API Overview
 
 - **Querying Result Type:**
-    - `is_ok()`: Returns `True` if the `Result` is `Ok`.
-    - `is_err()`: Returns `True` if the `Result` is `Err`.
+  - `is_ok()`: Returns `True` if the `Result` is `Ok`.
+  - `is_err()`: Returns `True` if the `Result` is `Err`.
 
 - **Unwrapping Values:**
-    - `expect(message)`: Unwraps the value or raises `UnwrapError` with a custom message.
-    - `unwrap()`: Unwraps the value or raises `UnwrapError`.
-    - `unwrap_or(default)`: Returns the provided default value if `Err`.
-    - `unwrap_or_else(func)`: Returns the result of the provided function if `Err`.
-    - `unwrap_or_raise()`: Raises the exception contained in `Err`.
+  - `expect(message)`: Unwraps the value or raises `UnwrapError` with a custom message.
+  - `unwrap()`: Unwraps the value or raises `UnwrapError`.
+  - `unwrap_or(default)`: Returns the provided default value if `Err`.
+  - `unwrap_or_else(func)`: Returns the result of the provided function if `Err`.
+  - `unwrap_or_raise()`: Raises the exception contained in `Err`.
 
 - **Transforming Results:**
-    - `ok()`: Transforms `Ok` to `Option[T]`
-    - `err()`: Transforms `Err` to `Option[E]`
-    - `map(func)`: Applies `func` to the `Ok` value.
-    - `map_err(func)`: Applies `func` to the `Err` value.
-    - `map_or(default, func)`: Applies `func` to `Ok` or returns `default` if `Err`.
-    - `map_or_else(f_err, f_ok)`: Applies different functions depending on whether the `Result` is `Ok` or `Err`.
+  - `ok()`: Transforms `Ok` to `Option[T]`
+  - `err()`: Transforms `Err` to `Option[E]`
+  - `map(func)`: Applies `func` to the `Ok` value.
+  - `map_err(func)`: Applies `func` to the `Err` value.
+  - `map_or(default, func)`: Applies `func` to `Ok` or returns `default` if `Err`.
+  - `map_or_else(f_err, f_ok)`: Applies different functions depending on whether the `Result` is `Ok` or `Err`.
 
 - **Logical Operations:**
-    - `and_(other)`: Returns the second `Result` if the first is `Ok`; otherwise returns the original `Err`.
-    - `or_(other)`: Returns the first `Ok`, or the second `Result` if the first is `Err`.
-    - `and_then(func)`: Chains another operation based on the `Ok` value.
-    - `or_else(func)`: Chains another operation based on the `Err` value.
+  - `and_(other)`: Returns the second `Result` if the first is `Ok`; otherwise returns the original `Err`.
+  - `or_(other)`: Returns the first `Ok`, or the second `Result` if the first is `Err`.
+  - `and_then(func)`: Chains another operation based on the `Ok` value.
+  - `or_else(func)`: Chains another operation based on the `Err` value.
 
 ### Option[T]
 
@@ -130,26 +169,26 @@ none_value: Option[int] = Option()
 #### API Overview
 
 - **Querying Option Type:**
-    - `is_some()`: Returns `True` if the `Option` contains a value.
-    - `is_none()`: Returns `True` if the `Option` contains no value.
+  - `is_some()`: Returns `True` if the `Option` contains a value.
+  - `is_none()`: Returns `True` if the `Option` contains no value.
 
 - **Unwrapping Values:**
-    - `expect(message)`: Unwraps the value or raises `UnwrapError` with a custom message.
-    - `unwrap()`: Unwraps the value or raises `UnwrapError`.
-    - `unwrap_or(default)`: Returns the provided default value if `None`.
-    - `unwrap_or_else(func)`: Returns the result of a provided function if `None`.
+  - `expect(message)`: Unwraps the value or raises `UnwrapError` with a custom message.
+  - `unwrap()`: Unwraps the value or raises `UnwrapError`.
+  - `unwrap_or(default)`: Returns the provided default value if `None`.
+  - `unwrap_or_else(func)`: Returns the result of a provided function if `None`.
 
 - **Transforming Options:**
-    - `map(func)`: Transforms the `Some` value.
-    - `map_or(default, func)`: Transforms the `Some` value or returns a default if `None`.
-    - `map_or_else(default_func, func)`: Transforms the `Some` value or returns the result of a default function if
+  - `map(func)`: Transforms the `Some` value.
+  - `map_or(default, func)`: Transforms the `Some` value or returns a default if `None`.
+  - `map_or_else(default_func, func)`: Transforms the `Some` value or returns the result of a default function if
       `None`.
 
 - **Logical Operations:**
-    - `and_(other)`: Returns the second `Option` if the first is `Some`; otherwise returns `None`.
-    - `or_(other)`: Returns the first `Some`, or the second `Option` if the first is `None`.
-    - `and_then(func)`: Chains another operation based on the `Some` value.
-    - `or_else(func)`: Chains another operation based on the `None` value.
+  - `and_(other)`: Returns the second `Option` if the first is `Some`; otherwise returns `None`.
+  - `or_(other)`: Returns the first `Some`, or the second `Option` if the first is `None`.
+  - `and_then(func)`: Chains another operation based on the `Some` value.
+  - `or_else(func)`: Chains another operation based on the `None` value.
 
 ## ⚙️ Usage Examples
 

@@ -1,7 +1,10 @@
 from dataclasses import dataclass
-from typing import TypeVar, Callable, Generic
+from typing import TypeVar, Callable, Generic, TYPE_CHECKING
 
 from rusty_utils.common import UnwrapError
+
+if TYPE_CHECKING:
+    from rusty_utils.result import Result
 
 T = TypeVar('T')
 U = TypeVar('U')
@@ -58,7 +61,7 @@ class Option(Generic[T]):
         Returns:
             bool: `True` if the `Option` contains a value and the predicate is `True`, `False` otherwise.
         """
-        return self.is_some() and f(self.value)
+        return self.is_some() and f(self.value) # type: ignore
 
     def expect(self, message: str) -> T:
         """Return the contained value or raise a `ValueError` with the provided message if `None`.
@@ -161,7 +164,7 @@ class Option(Generic[T]):
             f(self.value)
         return self
 
-    def ok_or(self, err: E) -> 'Result[T, E]':
+    def ok_or(self, err: E) -> Result[T, E]:
         """Convert the `Option` to a `Result`, returning `Ok(value)` if `Some`, or `Err(err)` if `None`.
 
         Args:
@@ -173,7 +176,7 @@ class Option(Generic[T]):
         from rusty_utils.result import Result
         return Result(ok=self.value) if self.value is not None else Result(err=err)
 
-    def ok_or_else(self, err_f: Callable[[], E]) -> 'Result[T, E]':
+    def ok_or_else(self, err_f: Callable[[], E]) -> Result[T, E]:
         """Convert the `Option` to a `Result`, returning `Ok(value)` if `Some`, or `Err` from a function if `None`.
 
         Args:
