@@ -2,17 +2,16 @@
 
 Bringing useful tools from Rust to Python.
 
-## :door: Portals
+## 🚪 Portals
 
-- [:door: Portals](#door-portals)
-- [:inbox\_tray: Installation](#inbox_tray-installation)
-- [:books: Features](#books-features)
-  - [Result\[T, E\]](#resultt-e)
-- [:gear: Usage Examples](#gear-usage-examples)
-  - [Example: Handling API Responses](#example-handling-api-responses)
-  - [Example: Safely Unwrapping Values](#example-safely-unwrapping-values)
+- [📥 Installation](#-installation)
+- [📚 Features](#-features)
+    - [Result\[T, E\]](#resultt-e)
+- [⚙️ Usage Examples](#-usage-examples)
+    - [Example: Handling API Responses](#example-handling-api-responses)
+    - [Example: Safely Unwrapping Values](#example-safely-unwrapping-values)
 
-## :inbox_tray: Installation
+## 📥 Installation
 
 `rusty-utils` is available on [PyPI](https://pypi.org/project/rusty-utils/).
 
@@ -28,7 +27,7 @@ Or with `poetry`:
 poetry add rusty-utils
 ```
 
-## :books: Features
+## 📚 Features
 
 `rusty-utils` brings Rust-inspired constructs like `Result` and `Option` to Python, allowing developers to write cleaner
 and more robust error-handling code.
@@ -89,6 +88,7 @@ def russian_roulette() -> str:
 # Quickly wrap the function call in a Result
 result: Result[str, Exception] = Catch(russian_roulette, Exception)
 ```
+
 #### API Overview
 
 - **Querying Result Type:**
@@ -103,8 +103,10 @@ result: Result[str, Exception] = Catch(russian_roulette, Exception)
     - `unwrap_or_raise()`: Raises the exception contained in `Err`.
 
 - **Transforming Results:**
-    - `map(func)`: Transforms the `Ok` value.
-    - `map_err(func)`: Transforms the `Err` value.
+    - `ok()`: Transforms `Ok` to `Option[T]`
+    - `err()`: Transforms `Err` to `Option[E]`
+    - `map(func)`: Applies `func` to the `Ok` value.
+    - `map_err(func)`: Applies `func` to the `Err` value.
     - `map_or(default, func)`: Applies `func` to `Ok` or returns `default` if `Err`.
     - `map_or_else(f_err, f_ok)`: Applies different functions depending on whether the `Result` is `Ok` or `Err`.
 
@@ -149,7 +151,7 @@ none_value: Option[int] = Option()
     - `and_then(func)`: Chains another operation based on the `Some` value.
     - `or_else(func)`: Chains another operation based on the `None` value.
 
-## :gear: Usage Examples
+## ⚙️ Usage Examples
 
 Here are more practical examples of using `Result` and `Option` in real-world scenarios.
 
@@ -160,20 +162,20 @@ from rusty_utils import Result, Ok, Err
 
 
 def fetch_data() -> Result[dict, Exception]:
-  try:
-    # Simulating an API call
-    data = {"id": 824, "name": "Kobe Bryant"}
-    return Ok(data)
-  except Exception as e:
-    return Err(e)
+    try:
+        # Simulating an API call
+        data = {"id": 824, "name": "Kobe Bryant"}
+        return Ok(data)
+    except Exception as e:
+        return Err(e)
 
 
 result = fetch_data()
 
 if result.is_ok():
-  print("Success:", result.unwrap())
+    print("Success:", result.unwrap())
 else:
-  print("Error:", result.unwrap_err())
+    print("Error:", result.unwrap_err())
 ```
 
 ### Example: Safely Unwrapping Values
