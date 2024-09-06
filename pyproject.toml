@@ -5,6 +5,8 @@ description = "Bring some useful tools from Rust to Python"
 authors = ["iceice666 <iceice666@outlook.com>"]
 license = "mit"
 readme = "README.md"
+repository = "https://github.com/iceice666/rusty-utils"
+homepage = "https://github.com/iceice666/rusty-utils"
 
 [tool.poetry.dependencies]
 python = "^3.11"
