@@ -1,6 +1,7 @@
 import pytest
 
 from rusty_utils import Result, UnwrapError
+from rusty_utils.result import Catch
 
 
 class TestException(Exception):
@@ -149,11 +150,11 @@ def test_or_err() -> None:
 
 
 def test_catch() -> None:
-    result_ok: Result[float, TestException] = Result.catch(lambda: 42 / 2, TestException)
+    result_ok: Result[float, TestException] = Catch(lambda: 42 / 2, TestException)
     assert result_ok.is_ok() is True
     assert result_ok.unwrap() == 21
 
-    result_err: Result[float, ZeroDivisionError] = Result.catch(lambda: 42 / 0, ZeroDivisionError)
+    result_err: Result[float, ZeroDivisionError] = Catch(lambda: 42 / 0, ZeroDivisionError)
     assert result_err.is_err() is True
     with pytest.raises(ZeroDivisionError):
         raise result_err.unwrap_err()

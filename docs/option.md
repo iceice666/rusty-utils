@@ -14,13 +14,13 @@
 <a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L11"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `Option`
-A class that expands the built-in Optional type, representing a value that may or may not be present (Some or None). 
+A class that expands the built-in `Optional` type, representing a value that may or may not be present (`Some` or `None`). 
 
 
 
 **Attributes:**
  
- - <b>`value`</b> (T | None):  The value stored in the option or None if no value. 
+ - <b>`value`</b> (`T | None`):  The value stored in the `Option` or `None` if no value is present. 
 
 <a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L20"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
@@ -30,13 +30,13 @@ A class that expands the built-in Optional type, representing a value that may o
 __init__(value: Optional[~T] = None)
 ```
 
-Initialize the Option class with an optional value. 
+Initialize the `Option` class with an optional value. 
 
 
 
 **Args:**
  
- - <b>`value`</b> (T | None):  The value to be stored in the Option, or None if absent. 
+ - <b>`value`</b> (`T | None`):  The value to be stored in the `Option`, or `None` if absent. 
 
 
 
@@ -51,19 +51,19 @@ Initialize the Option class with an optional value.
 and_(optb: 'Option[U]') → Option[U]
 ```
 
-Return the second Option if the first is Some, otherwise return None. 
+Return the second `Option` if the first is `Some`, otherwise return `None`. 
 
 
 
 **Args:**
  
- - <b>`optb`</b> (Option[U]):  The second Option to return if the first is Some. 
+ - <b>`optb`</b> (`Option[U]`):  The second `Option` to return if the first is `Some`. 
 
 
 
 **Returns:**
  
- - <b>`Option[U]`</b>:  The second Option if the first is Some, otherwise None. 
+ - <b>``Option[U]``</b>:  The second `Option` if the first is `Some`, otherwise `None`. 
 
 ---
 
@@ -75,19 +75,19 @@ Return the second Option if the first is Some, otherwise return None.
 and_then(f: Callable[[~T], ForwardRef('Option[U]')]) → Option[U]
 ```
 
-Call a function if the Option is Some and return its result, otherwise return None. 
+Call a function if the `Option` is `Some` and return its result, otherwise return `None`. 
 
 
 
 **Args:**
  
- - <b>`f`</b> (Callable[[T], Option[U]]):  A function that takes the contained value and returns a new Option. 
+ - <b>`f`</b> (`Callable[[T], Option[U]]`):  A function that takes the contained value and returns a new `Option`. 
 
 
 
 **Returns:**
  
- - <b>`Option[U]`</b>:  The result of the function if Some, otherwise None. 
+ - <b>``Option[U]``</b>:  The result of the function if `Some`, otherwise `None`. 
 
 ---
 
@@ -99,25 +99,25 @@ Call a function if the Option is Some and return its result, otherwise return No
 expect(message: str) → ~T
 ```
 
-Return the contained value or raise a ValueError with the provided message if None. 
+Return the contained value or raise a `ValueError` with the provided message if `None`. 
 
 
 
 **Args:**
  
- - <b>`message`</b> (str):  The message for the error if the Option contains no value. 
+ - <b>`message`</b> (str):  The message for the error if the `Option` contains no value. 
 
 
 
 **Returns:**
  
- - <b>`T`</b>:  The contained value. 
+ - <b>``T``</b>:  The contained value. 
 
 
 
 **Raises:**
  
- - <b>`ValueError`</b>:  If the Option contains no value. 
+ - <b>``ValueError``</b>:  If the `Option` contains no value. 
 
 ---
 
@@ -129,19 +129,19 @@ Return the contained value or raise a ValueError with the provided message if No
 inspect(f: Callable[[~T], NoneType]) → Option[T]
 ```
 
-Call a function with the contained value for side effects and return the Option unchanged. 
+Call a function with the contained value for side effects and return the `Option` unchanged. 
 
 
 
 **Args:**
  
- - <b>`f`</b> (Callable[[T], None]):  A function that takes the contained value for side effects. 
+ - <b>`f`</b> (`Callable[[T], None]`):  A function that takes the contained value for side effects. 
 
 
 
 **Returns:**
  
- - <b>`Option[T]`</b>:  The original Option. 
+ - <b>``Option[T]``</b>:  The original `Option`. 
 
 ---
 
@@ -153,13 +153,13 @@ Call a function with the contained value for side effects and return the Option 
 is_none() → bool
 ```
 
-Check if the Option contains no value. 
+Check if the `Option` contains no value. 
 
 
 
 **Returns:**
  
- - <b>`bool`</b>:  True if the option contains no value, False otherwise. 
+ - <b>`bool`</b>:  `True` if the `Option` contains no value, `False` otherwise. 
 
 ---
 
@@ -171,13 +171,13 @@ Check if the Option contains no value.
 is_some() → bool
 ```
 
-Check if the Option contains a value. 
+Check if the `Option` contains a value. 
 
 
 
 **Returns:**
  
- - <b>`bool`</b>:  True if the option contains a value, False otherwise. 
+ - <b>`bool`</b>:  `True` if the `Option` contains a value, `False` otherwise. 
 
 ---
 
@@ -189,19 +189,19 @@ Check if the Option contains a value.
 is_some_and(f: Callable[[~T], bool]) → bool
 ```
 
-Check if the Option contains a value and the predicate returns True. 
+Check if the `Option` contains a value and the predicate returns `True`. 
 
 
 
 **Args:**
  
- - <b>`f`</b> (Callable[[T], bool]):  A function that takes the value and returns a bool. 
+ - <b>`f`</b> (`Callable[[T], bool]`):  A function that takes the value and returns a `bool`. 
 
 
 
 **Returns:**
  
- - <b>`bool`</b>:  True if the Option contains a value and the predicate is True, False otherwise. 
+ - <b>`bool`</b>:  `True` if the `Option` contains a value and the predicate is `True`, `False` otherwise. 
 
 ---
 
@@ -213,19 +213,19 @@ Check if the Option contains a value and the predicate returns True.
 map(f: Callable[[~T], ~U]) → Option[U]
 ```
 
-Apply a function to the contained value and return a new Option containing the result. 
+Apply a function to the contained value and return a new `Option` containing the result. 
 
 
 
 **Args:**
  
- - <b>`f`</b> (Callable[[T], U]):  A function that takes the contained value and returns a new value. 
+ - <b>`f`</b> (`Callable[[T], U]`):  A function that takes the contained value and returns a new value. 
 
 
 
 **Returns:**
  
- - <b>`Option[U]`</b>:  A new Option with the result of the function or None if the original Option was None. 
+ - <b>``Option[U]``</b>:  A new `Option` with the result of the function or `None` if the original `Option` was `None`. 
 
 ---
 
@@ -237,20 +237,20 @@ Apply a function to the contained value and return a new Option containing the r
 map_or(default: ~U, f: Callable[[~T], ~U]) → ~U
 ```
 
-Apply a function to the contained value or return the provided default if None. 
+Apply a function to the contained value or return the provided default if `None`. 
 
 
 
 **Args:**
  
- - <b>`default`</b> (U):  The default value to return if the Option contains no value. 
- - <b>`f`</b> (Callable[[T], U]):  A function that takes the contained value and returns a new value. 
+ - <b>`default`</b> (`U`):  The default value to return if the `Option` contains no value. 
+ - <b>`f`</b> (`Callable[[T], U]`):  A function that takes the contained value and returns a new value. 
 
 
 
 **Returns:**
  
- - <b>`U`</b>:  The result of the function or the default value. 
+ - <b>``U``</b>:  The result of the function or the default value. 
 
 ---
 
@@ -262,20 +262,20 @@ Apply a function to the contained value or return the provided default if None.
 map_or_else(default_f: Callable[[], ~U], f: Callable[[~T], ~U]) → ~U
 ```
 
-Apply a function to the contained value or return the result of a default function if None. 
+Apply a function to the contained value or return the result of a default function if `None`. 
 
 
 
 **Args:**
  
- - <b>`default_f`</b> (Callable[[], U]):  A function that returns a default value if the Option contains no value. 
- - <b>`f`</b> (Callable[[T], U]):  A function that takes the contained value and returns a new value. 
+ - <b>`default_f`</b> (`Callable[[], U]`):  A function that returns a default value if the `Option` contains no value. 
+ - <b>`f`</b> (`Callable[[T], U]`):  A function that takes the contained value and returns a new value. 
 
 
 
 **Returns:**
  
- - <b>`U`</b>:  The result of the function or the result of the default function. 
+ - <b>``U``</b>:  The result of the function or the result of the default function. 
 
 ---
 
@@ -287,19 +287,19 @@ Apply a function to the contained value or return the result of a default functi
 ok_or(err: ~E) → Result[T, E]
 ```
 
-Convert the Option to a Result, returning Ok(value) if Some, or Err(err) if None. 
+Convert the `Option` to a `Result`, returning `Ok(value)` if `Some`, or `Err(err)` if `None`. 
 
 
 
 **Args:**
  
- - <b>`err`</b> (E):  The error to return if the Option contains no value. 
+ - <b>`err`</b> (`E`):  The error to return if the `Option` contains no value. 
 
 
 
 **Returns:**
  
- - <b>`Result[T, E]`</b>:  Ok with the value if Some, Err with the error if None. 
+ - <b>``Result[T, E]``</b>:  `Ok` with the value if `Some`, `Err` with the error if `None`. 
 
 ---
 
@@ -311,19 +311,19 @@ Convert the Option to a Result, returning Ok(value) if Some, or Err(err) if None
 ok_or_else(err_f: Callable[[], ~E]) → Result[T, E]
 ```
 
-Convert the Option to a Result, returning Ok(value) if Some, or Err from a function if None. 
+Convert the `Option` to a `Result`, returning `Ok(value)` if `Some`, or `Err` from a function if `None`. 
 
 
 
 **Args:**
  
- - <b>`err_f`</b> (Callable[[], E]):  A function that returns an error if the Option contains no value. 
+ - <b>`err_f`</b> (`Callable[[], E]`):  A function that returns an error if the `Option` contains no value. 
 
 
 
 **Returns:**
  
- - <b>`Result[T, E]`</b>:  Ok with the value if Some, Err with the result of the function if None. 
+ - <b>``Result[T, E]``</b>:  `Ok` with the value if `Some`, `Err` with the result of the function if `None`. 
 
 ---
 
@@ -335,19 +335,19 @@ Convert the Option to a Result, returning Ok(value) if Some, or Err from a funct
 or_(optb: 'Option[T]') → Option[T]
 ```
 
-Return the first Option if it's Some, otherwise return the second Option. 
+Return the first `Option` if it's `Some`, otherwise return the second `Option`. 
 
 
 
 **Args:**
  
- - <b>`optb`</b> (Option[T]):  The second Option to return if the first is None. 
+ - <b>`optb`</b> (`Option[T]`):  The second `Option` to return if the first is `None`. 
 
 
 
 **Returns:**
  
- - <b>`Option[T]`</b>:  The first Option if it's Some, otherwise the second Option. 
+ - <b>``Option[T]``</b>:  The first `Option` if it's `Some`, otherwise the second `Option`. 
 
 ---
 
@@ -359,19 +359,19 @@ Return the first Option if it's Some, otherwise return the second Option.
 or_else(f: Callable[[], ForwardRef('Option[T]')]) → Option[T]
 ```
 
-Return the first Option if it's Some, otherwise return the result of a function. 
+Return the first `Option` if it's `Some`, otherwise return the result of a function. 
 
 
 
 **Args:**
  
- - <b>`f`</b> (Callable[[], Option[T]]):  A function that returns a new Option if the first is None. 
+ - <b>`f`</b> (`Callable[[], Option[T]]`):  A function that returns a new `Option` if the first is `None`. 
 
 
 
 **Returns:**
  
- - <b>`Option[T]`</b>:  The first Option if it's Some, otherwise the result of the function. 
+ - <b>``Option[T]``</b>:  The first `Option` if it's `Some`, otherwise the result of the function. 
 
 ---
 
@@ -383,19 +383,19 @@ Return the first Option if it's Some, otherwise return the result of a function.
 unwrap() → ~T
 ```
 
-Return the contained value or raise an UnwrapError if None. 
+Return the contained value or raise an `UnwrapError` if `None`. 
 
 
 
 **Returns:**
  
- - <b>`T`</b>:  The contained value. 
+ - <b>``T``</b>:  The contained value. 
 
 
 
 **Raises:**
  
- - <b>`UnwrapError`</b>:  If the Option contains no value. 
+ - <b>``UnwrapError``</b>:  If the `Option` contains no value. 
 
 ---
 
@@ -407,19 +407,19 @@ Return the contained value or raise an UnwrapError if None.
 unwrap_or(default: ~T) → ~T
 ```
 
-Return the contained value or the provided default if None. 
+Return the contained value or the provided default if `None`. 
 
 
 
 **Args:**
  
- - <b>`default`</b> (T):  The default value to return if the Option contains no value. 
+ - <b>`default`</b> (`T`):  The default value to return if the `Option` contains no value. 
 
 
 
 **Returns:**
  
- - <b>`T`</b>:  The contained value or the default. 
+ - <b>``T``</b>:  The contained value or the default. 
 
 ---
 
@@ -431,19 +431,19 @@ Return the contained value or the provided default if None.
 unwrap_or_else(f: Callable[[], ~T]) → ~T
 ```
 
-Return the contained value or the result of the provided function if None. 
+Return the contained value or the result of the provided function if `None`. 
 
 
 
 **Args:**
  
- - <b>`f`</b> (Callable[[], T]):  A function that returns a value to be used if the Option contains no value. 
+ - <b>`f`</b> (`Callable[[], T]`):  A function that returns a value to be used if the `Option` contains no value. 
 
 
 
 **Returns:**
  
- - <b>`T`</b>:  The contained value or the result of the function. 
+ - <b>``T``</b>:  The contained value or the result of the function. 
 
 ---
 
@@ -455,19 +455,19 @@ Return the contained value or the result of the provided function if None.
 xor(optb: 'Option[T]') → Option[T]
 ```
 
-Return Some if exactly one of the options is Some, otherwise return None. 
+Return `Some` if exactly one of the options is `Some`, otherwise return `None`. 
 
 
 
 **Args:**
  
- - <b>`optb`</b> (Option[T]):  The other Option to compare with. 
+ - <b>`optb`</b> (`Option[T]`):  The other `Option` to compare with. 
 
 
 
 **Returns:**
  
- - <b>`Option[T]`</b>:  Some if exactly one of the options is Some, otherwise None. 
+ - <b>``Option[T]``</b>:  `Some` if exactly one of the options is `Some`, otherwise `None`. 
 
 
 
