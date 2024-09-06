@@ -7,12 +7,15 @@ license = "mit"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.11"
+
 
 [tool.poetry.group.test.dependencies]
 pytest-cov = "^5.0.0"
 pytest = "^8.3.2"
 pytest-mypy = "^0.10.3"
+lazydocs = "^0.4.8"
+pydocstyle = "^6.1.1"
 
 
 [build-system]
@@ -20,7 +23,7 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.mypy]
-python_version = "3.12"
+python_version = "3.11"
 files = [
     "src",
     "tests",
