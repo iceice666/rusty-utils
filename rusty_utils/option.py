@@ -164,7 +164,7 @@ class Option(Generic[T]):
             f(self.value)
         return self
 
-    def ok_or(self, err: E) -> Result[T, E]:
+    def ok_or(self, err: E) -> "Result[T, E]":
         """Convert the `Option` to a `Result`, returning `Ok(value)` if `Some`, or `Err(err)` if `None`.
 
         Args:
@@ -176,7 +176,7 @@ class Option(Generic[T]):
         from rusty_utils.result import Result
         return Result(ok=self.value) if self.value is not None else Result(err=err)
 
-    def ok_or_else(self, err_f: Callable[[], E]) -> Result[T, E]:
+    def ok_or_else(self, err_f: Callable[[], E]) -> "Result[T, E]":
         """Convert the `Option` to a `Result`, returning `Ok(value)` if `Some`, or `Err` from a function if `None`.
 
         Args:

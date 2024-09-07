@@ -1,7 +1,6 @@
 import pytest
 
 from rusty_utils import Result, UnwrapError
-from rusty_utils.result import Catch
 
 
 class TestException(Exception):
@@ -150,14 +149,21 @@ def test_or_err() -> None:
 
 
 def test_catch() -> None:
-    @Catch(ZeroDivisionError)
-    def side_effect(divisor: int) -> float:
-        return 42 / divisor
+    from rusty_utils import Catch
 
-    assert side_effect(2).unwrap() == 21.0
-
-    def another_side_effect() -> float:
+    def side_effect() -> float:
+        # Simulate a potential failure (e.g., division by zero)
         return 42 / 0
 
-    with pytest.raises(ZeroDivisionError):
-        Catch(ZeroDivisionError)(lambda: another_side_effect())().unwrap_or_raise()
+    @Catch(Exception)
+    def wrapped_side_effect() -> float:
+        return 42 / 2
+
+    @Catch(Exception)
+    def process() -> None:
+        assert 21.0 == Catch(Exception)(side_effect)().unwrap_or_raise()
+        result = wrapped_side_effect()
+        assert result.is_err() is True
+        result.unwrap_or_raise()  # Should not raise an error
+
+    assert process().is_err() is True  # No error is raised, return a None

@@ -66,7 +66,7 @@ class Result(Generic[T, E]):
         """
         return not self.__is_ok__
 
-    def ok(self) -> Option[T]:
+    def ok(self) -> "Option[T]":
         """Retrieves the `Ok` value if the `Result` is successful.
 
         Returns:
@@ -75,7 +75,7 @@ class Result(Generic[T, E]):
         from rusty_utils.option import Option
         return Option(self.ok_value)
 
-    def err(self) -> Option[E]:
+    def err(self) -> "Option[E]":
         """Retrieves the `Err` value if the `Result` is a failure.
 
         Returns:
