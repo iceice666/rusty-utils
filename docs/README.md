@@ -16,7 +16,7 @@
 
 ## Functions
 
-- [`result.Catch`](./result.md#function-catch): A decorator that catches exceptions to the provided type and returns them as `Err` values.
+- [`result.Catch`](./result.md#function-catch): A decorator that returns a `Err` if captured an exception or `Ok` if the function returns successfully.
 - [`result.Err`](./result.md#function-err): Creates a new `Result` object with the provided value as the `Err` value.
 - [`result.Ok`](./result.md#function-ok): Creates a new `Result` object with the provided value as the `Ok` value.
 

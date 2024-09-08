@@ -151,19 +151,21 @@ def test_or_err() -> None:
 def test_catch() -> None:
     from rusty_utils import Catch
 
-    def side_effect() -> float:
-        # Simulate a potential failure (e.g., division by zero)
+    @Catch(Exception)
+    def good_effect() -> float:
+        return 42 / 2
+
+    def bad_effect() -> float:
         return 42 / 0
 
     @Catch(Exception)
-    def wrapped_side_effect() -> float:
-        return 42 / 2
-
-    @Catch(Exception)
     def process() -> None:
-        assert 21.0 == Catch(Exception)(side_effect)().unwrap_or_raise()
-        result = wrapped_side_effect()
-        assert result.is_err() is True
-        result.unwrap_or_raise()  # Should not raise an error
+        good_result = good_effect()
+        assert good_result.is_ok() is True
 
-    assert process().is_err() is True  # No error is raised, return a None
+        bad_result: Result[float, Exception] = Catch(Exception, func=bad_effect)
+        assert bad_result.is_err() is True
+        with pytest.raises(ZeroDivisionError):
+            bad_result.unwrap_or_raise()
+
+    process()

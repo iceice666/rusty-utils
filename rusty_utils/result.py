@@ -1,6 +1,6 @@
 import inspect
 from dataclasses import dataclass
-from typing import TypeVar, Generic, Optional, Callable, TYPE_CHECKING
+from typing import TypeVar, Generic, Optional, Callable, TYPE_CHECKING, ParamSpec, overload, Union
 
 if TYPE_CHECKING:
     from rusty_utils.option import Option
@@ -11,6 +11,7 @@ T = TypeVar("T")
 U = TypeVar("U")
 E = TypeVar("E", bound=BaseException)
 F = TypeVar("F", bound=BaseException)
+P = ParamSpec("P")
 
 
 @dataclass(frozen=True)
@@ -339,21 +340,40 @@ def Err(value: E) -> "Result[T, E]":
     return Result(err=value)
 
 
-def Catch(*err_type: type[E]) -> Callable[[Callable[..., T]], Callable[..., Result[T, E]]]:
-    """A decorator that catches exceptions to the provided type and returns them as `Err` values."""
+# Decorator
+@overload
+def Catch(*err_type: type[E]) -> Callable[[Callable[P, T]], Callable[P, Result[T, E]]]: ...
+
+
+# Direct call
+@overload
+def Catch(*err_type: type[E], func: Callable[P, T]) -> Result[T, E]: ...
+
+
+def Catch(*err_type: type[E], func: Optional[Callable[P, T]] = None) -> Union[
+    Callable[[Callable[P, T]], Callable[P, Result[T, E]]],
+    Result[T, E]
+]:
+    """A decorator that returns a `Err` if captured an exception or `Ok` if the function returns successfully."""
     from functools import wraps
 
     if not err_type or not all(inspect.isclass(e) and issubclass(e, BaseException) for e in err_type):
         raise TypeError("Catch decorator requires at least one exception type")
 
-    def decorator(func: Callable[..., T]) -> Callable[..., Result[T, E]]:
-        @wraps(func)
-        def wrapper(*args: object, **kwargs: object) -> "Result[T, E]":
-            try:
-                return Ok(func(*args, **kwargs))
-            except err_type as e:
-                return Err(e)
+    if func is None:
+        def decorator(f: Callable[P, T]) -> Callable[P, Result[T, E]]:
+            @wraps(f)
+            def wrapper(*args: P.args, **kwargs: P.kwargs) -> "Result[T, E]":
+                try:
+                    return Ok(f(*args, **kwargs))
+                except err_type as e:
+                    return Err(e)
 
-        return wrapper
+            return wrapper
 
-    return decorator
+        return decorator
+    else:
+        try:
+            return Ok(func())
+        except err_type as e:
+            return Err(e)

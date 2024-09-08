@@ -27,7 +27,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.mypy]
 python_version = "3.11"
 files = [
-    "src",
+    "rusty_utils",
     "tests",
 ]
 

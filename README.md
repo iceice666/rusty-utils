@@ -106,7 +106,7 @@ def side_effect() -> float:
     return 42 / 0
 
 
-@Catch(Exception)
+@Catch(Exception, ZeroDivisionError)
 def wrapped_side_effect() -> float:
     return side_effect()
 
@@ -114,7 +114,7 @@ def wrapped_side_effect() -> float:
 @Catch(Exception)
 def process() -> None:
     result1 = wrapped_side_effect().unwrap_or_raise()  # You achieve same functionality with `unwrap_or_raise()`!
-    result2 = Catch(Exception)(side_effect)().unwrap_or_raise() 
+    result2 = Catch(Exception, ZeroDivisionError, func=side_effect).unwrap_or_raise() 
 ```
 
 In this example:
@@ -122,11 +122,6 @@ In this example:
 - We use the `@Catch(Exception)` decorator to make sure we can capture the raised `Err` and return to the caller.
     - What the `@Catch(E)` do is transform the function into a capturer which returns `Result[T, E]`
 - We can use the `Catch` in this way (result2) to capture the result of a fallible function call into a `Result`.
-    - The first function call pass a series of exceptions which need to be captured.
-    - The second function call pass the fallible function you want to call and capture the result. (***Do not call the
-      function inside!!!***)
-    - The third function call launch our safety net and wait the exception be captured (or you're lucky and get
-      data you want).
 - The `wrapped_side_effect()` function returns a `Result` that might be an error (`Err`) or a valid value (`Ok`).
     - Since the function returns a `float` and we mark it might raise an `Exception`, so it actually returns a
       `Result[float, Exception]`.
@@ -135,6 +130,10 @@ In this example:
 
 This approach enables cleaner error propagation and handling in Python, much like in Rust, but using Python’s
 exception-handling style.
+
+> Although the `@Catch` decorator accpets multiple exception types, it's recommended to use it only for one type of
+> exception at a time, or your linter might can't resolve the type hints correctly. (like it might think the
+> `wrapped_side_effect` returns a `Result[float, Any]`)
 
 #### API Overview
 
