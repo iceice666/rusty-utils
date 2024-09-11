@@ -7,11 +7,14 @@
 
 
 
+**Global Variables**
+---------------
+- **TYPE_CHECKING**
 
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L14"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L15"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `Option`
 A class that expands the built-in `Optional` type, representing a value that may or may not be present (`Some` or `None`). 
@@ -22,7 +25,7 @@ A class that expands the built-in `Optional` type, representing a value that may
  
  - <b>`value`</b> (`T | None`):  The value stored in the `Option` or `None` if no value is present. 
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L23"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L24"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `__init__`
 
@@ -43,12 +46,12 @@ Initialize the `Option` class with an optional value.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L191"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L190"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `and_`
 
 ```python
-and_(optb: 'Option[U]') → Option[U]
+and_(opt_b: 'Option[U]') → Option[U]
 ```
 
 Return the second `Option` if the first is `Some`, otherwise return `None`. 
@@ -57,7 +60,7 @@ Return the second `Option` if the first is `Some`, otherwise return `None`.
 
 **Args:**
  
- - <b>`optb`</b> (`Option[U]`):  The second `Option` to return if the first is `Some`. 
+ - <b>`opt_b`</b> (`Option[U]`):  The second `Option` to return if the first is `Some`. 
 
 
 
@@ -67,7 +70,7 @@ Return the second `Option` if the first is `Some`, otherwise return `None`.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L202"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L201"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `and_then`
 
@@ -91,7 +94,7 @@ Call a function if the `Option` is `Some` and return its result, otherwise retur
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L66"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L67"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `expect`
 
@@ -121,7 +124,7 @@ Return the contained value or raise a `ValueError` with the provided message if 
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L154"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L155"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `inspect`
 
@@ -145,7 +148,7 @@ Call a function with the contained value for side effects and return the `Option
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L47"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L48"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `is_none`
 
@@ -163,7 +166,7 @@ Check if the `Option` contains no value.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L39"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L40"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `is_some`
 
@@ -181,7 +184,7 @@ Check if the `Option` contains a value.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L55"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L56"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `is_some_and`
 
@@ -205,7 +208,7 @@ Check if the `Option` contains a value and the predicate returns `True`.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L119"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L120"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `map`
 
@@ -229,7 +232,7 @@ Apply a function to the contained value and return a new `Option` containing the
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L130"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L131"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `map_or`
 
@@ -254,7 +257,7 @@ Apply a function to the contained value or return the provided default if `None`
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L142"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L143"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `map_or_else`
 
@@ -279,7 +282,7 @@ Apply a function to the contained value or return the result of a default functi
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L167"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L168"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `ok_or`
 
@@ -327,12 +330,12 @@ Convert the `Option` to a `Result`, returning `Ok(value)` if `Some`, or `Err` fr
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L213"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L212"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `or_`
 
 ```python
-or_(optb: 'Option[T]') → Option[T]
+or_(opt_b: 'Option[T]') → Option[T]
 ```
 
 Return the first `Option` if it's `Some`, otherwise return the second `Option`. 
@@ -341,7 +344,7 @@ Return the first `Option` if it's `Some`, otherwise return the second `Option`.
 
 **Args:**
  
- - <b>`optb`</b> (`Option[T]`):  The second `Option` to return if the first is `None`. 
+ - <b>`opt_b`</b> (`Option[T]`):  The second `Option` to return if the first is `None`. 
 
 
 
@@ -351,7 +354,7 @@ Return the first `Option` if it's `Some`, otherwise return the second `Option`.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L224"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L223"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `or_else`
 
@@ -375,7 +378,7 @@ Return the first `Option` if it's `Some`, otherwise return the result of a funct
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L83"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L84"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `unwrap`
 
@@ -399,7 +402,7 @@ Return the contained value or raise an `UnwrapError` if `None`.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L97"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L98"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `unwrap_or`
 
@@ -423,7 +426,7 @@ Return the contained value or the provided default if `None`.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L108"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L109"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `unwrap_or_else`
 
@@ -447,12 +450,12 @@ Return the contained value or the result of the provided function if `None`.
 
 ---
 
-<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L235"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/iceice666/rusty-utils/blob/main/rusty_utils\option.py#L234"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `xor`
 
 ```python
-xor(optb: 'Option[T]') → Option[T]
+xor(opt_b: 'Option[T]') → Option[T]
 ```
 
 Return `Some` if exactly one of the options is `Some`, otherwise return `None`. 
@@ -461,7 +464,7 @@ Return `Some` if exactly one of the options is `Some`, otherwise return `None`.
 
 **Args:**
  
- - <b>`optb`</b> (`Option[T]`):  The other `Option` to compare with. 
+ - <b>`opt_b`</b> (`Option[T]`):  The other `Option` to compare with. 
 
 
 
