@@ -1,10 +1,11 @@
 from dataclasses import dataclass
 from typing import TypeVar, Callable, Generic, TYPE_CHECKING
 
+from rusty_utils import result
 from rusty_utils.common import UnwrapError
 
 if TYPE_CHECKING:
-    from rusty_utils.result import Result
+    from rusty_utils.result import Result, Ok, Err
 
 T = TypeVar('T')
 U = TypeVar('U')
@@ -173,8 +174,7 @@ class Option(Generic[T]):
         Returns:
             `Result[T, E]`: `Ok` with the value if `Some`, `Err` with the error if `None`.
         """
-        from rusty_utils.result import Result
-        return Result(ok=self.value) if self.value is not None else Result(err=err)
+        return result.Ok(self.value) if self.value is not None else result.Err(err)
 
     def ok_or_else(self, err_f: Callable[[], E]) -> "Result[T, E]":
         """Convert the `Option` to a `Result`, returning `Ok(value)` if `Some`, or `Err` from a function if `None`.
@@ -185,19 +185,18 @@ class Option(Generic[T]):
         Returns:
             `Result[T, E]`: `Ok` with the value if `Some`, `Err` with the result of the function if `None`.
         """
-        from rusty_utils.result import Result
-        return Result(ok=self.value) if self.value is not None else Result(err=err_f())
+        return result.Ok(self.value) if self.value is not None else result.Err(err_f())
 
-    def and_(self, optb: 'Option[U]') -> 'Option[U]':
+    def and_(self, opt_b: 'Option[U]') -> 'Option[U]':
         """Return the second `Option` if the first is `Some`, otherwise return `None`.
 
         Args:
-            optb (`Option[U]`): The second `Option` to return if the first is `Some`.
+            opt_b (`Option[U]`): The second `Option` to return if the first is `Some`.
 
         Returns:
             `Option[U]`: The second `Option` if the first is `Some`, otherwise `None`.
         """
-        return optb if self.value is not None else Option()
+        return opt_b if self.value is not None else Option()
 
     def and_then(self, f: Callable[[T], 'Option[U]']) -> 'Option[U]':
         """Call a function if the `Option` is `Some` and return its result, otherwise return `None`.
@@ -210,16 +209,16 @@ class Option(Generic[T]):
         """
         return f(self.value) if self.value is not None else Option()
 
-    def or_(self, optb: 'Option[T]') -> 'Option[T]':
+    def or_(self, opt_b: 'Option[T]') -> 'Option[T]':
         """Return the first `Option` if it's `Some`, otherwise return the second `Option`.
 
         Args:
-            optb (`Option[T]`): The second `Option` to return if the first is `None`.
+            opt_b (`Option[T]`): The second `Option` to return if the first is `None`.
 
         Returns:
             `Option[T]`: The first `Option` if it's `Some`, otherwise the second `Option`.
         """
-        return self if self.value is not None else optb
+        return self if self.value is not None else opt_b
 
     def or_else(self, f: Callable[[], 'Option[T]']) -> 'Option[T]':
         """Return the first `Option` if it's `Some`, otherwise return the result of a function.
@@ -232,18 +231,18 @@ class Option(Generic[T]):
         """
         return self if self.value is not None else f()
 
-    def xor(self, optb: 'Option[T]') -> 'Option[T]':
+    def xor(self, opt_b: 'Option[T]') -> 'Option[T]':
         """Return `Some` if exactly one of the options is `Some`, otherwise return `None`.
 
         Args:
-            optb (`Option[T]`): The other `Option` to compare with.
+            opt_b (`Option[T]`): The other `Option` to compare with.
 
         Returns:
             `Option[T]`: `Some` if exactly one of the options is `Some`, otherwise `None`.
         """
-        if self.is_some() and optb.is_none():
+        if self.is_some() and opt_b.is_none():
             return self
-        elif self.is_none() and optb.is_some():
-            return optb
+        elif self.is_none() and opt_b.is_some():
+            return opt_b
         else:
             return Option()

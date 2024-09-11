@@ -1,6 +1,6 @@
 import pytest
 
-from rusty_utils import Option, Result, UnwrapError
+from rusty_utils import Option, Result, UnwrapError, Err, Ok
 
 
 def test_is_some() -> None:
@@ -65,13 +65,13 @@ def test_inspect() -> None:
 
 
 def test_ok_or() -> None:
-    assert Option(42).ok_or(ValueError("Error")) == Result(ok=42)
-    assert Option().ok_or(ValueError("Error")) == Result(err=ValueError("Error"))
+    assert Option(42).ok_or(ValueError("Error")) == Ok(42)
+    assert Option().ok_or(ValueError("Error")) == Err(ValueError("Error"))
 
 
 def test_ok_or_else() -> None:
-    assert Option(42).ok_or_else(lambda: ValueError("Error")) == Result(ok=42)
-    assert Option().ok_or_else(lambda: ValueError("Error")) == Result(err=ValueError("Error"))
+    assert Option(42).ok_or_else(lambda: ValueError("Error")) == Ok(42)
+    assert Option().ok_or_else(lambda: ValueError("Error")) == Err(ValueError("Error"))
 
 
 def test_and_() -> None:
