@@ -1,4 +1,4 @@
-# rusty-utils
+# rusty-utils [![Downloads](https://static.pepy.tech/badge/rusty-utils)](https://pepy.tech/project/rusty-utils)
 
 Bringing useful tools from Rust to Python.
 
