@@ -88,7 +88,7 @@ fn process() -> Result<(), Error> {
 }
 ```
 
-In Python, you can't overload the `?` operator (we even didn't treat `?` as a valid operator in Python)
+In Python, you can't overload the `?` operator (Python even didn't treat `?` as a valid operator)
 
 ```python
 result = side_effect()?  # What???
